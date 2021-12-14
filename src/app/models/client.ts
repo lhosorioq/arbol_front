@@ -4,8 +4,8 @@ export class Client {
   'dsnombres': string;
   'dsapellidos': string;
   'dsdireccion': string;
-  'dscorreo': string;
-  'cdtelefono': string;
-  'cdtelefonoalter': string;
-  'cdcelular': string;
+  'dscorreo'?: string;
+  'cdtelefono'?: string;
+  'cdtelefonoalter'?: string;
+  'cdcelular'?: string;
 }

@@ -12,6 +12,7 @@ export class AppComponent {
 
   selectedClient: Client = new Client();
   public clientArray: Client[] = [];
+  client: Client = new Client();
 
   constructor(private ClienteService: ClienteService) {
     this.ClienteService.getClientes()
@@ -19,6 +20,24 @@ export class AppComponent {
         // console.log(resp)
         this.clientArray = resp;
       })
+  }
+
+  ngOnInit() {}
+
+  preOrden(){
+    this.ClienteService.getClientesPre()
+    .subscribe((resp: any)=>{
+      console.log('Llelgo el nostror');
+      this.clientArray = resp;
+    })
+  }
+
+  inOrden(){
+    this.ClienteService.getClientes()
+    .subscribe((resp: any)=>{
+      // console.log(resp)
+      this.clientArray = resp;
+    })
   }
 
   // clientArray: Client[] = [
@@ -29,14 +48,27 @@ export class AppComponent {
 
 
   edit(client: Client) {
+    if( this.selectedClient.id !== 0 ) {
+      this.ClienteService.actualizar(this.selectedClient).subscribe(data => {
+        console.log(this.selectedClient);
+      });
+    }
     this.selectedClient = client;
   }
 
   guardar(){
     if( this.selectedClient.id === 0 ) {
-      this.selectedClient.id = this.clientArray.length + 1;
-      this.clientArray.push(this.selectedClient);
+      this.ClienteService.crear(this.selectedClient).subscribe(data => {
+        console.log(this.selectedClient);
+      });
+    } else {
+      if( this.selectedClient.id !== 0 ) {
+        this.ClienteService.actualizar(this.selectedClient).subscribe(data => {
+          console.log(this.selectedClient);
+        });
+      }
     }
+    this.preOrden();
     this.selectedClient = new Client();
   }
 
